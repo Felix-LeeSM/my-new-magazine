@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Like.init({
     id: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
     post_id: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
     }
   }, {
     sequelize,

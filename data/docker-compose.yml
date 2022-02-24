@@ -1,0 +1,13 @@
+version: '3'
+services:
+  db:
+    image: 'mysql:5.7'
+    restart: always
+    volumes:
+      - ./data_1:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=my_new_magazine
+    ports:
+      - "3306:3306"
+    

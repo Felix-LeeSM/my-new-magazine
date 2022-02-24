@@ -1,9 +1,19 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const cors = require('cors')
 const router = require('./routes/index.js');
 
 const app = express();
+
+const { sequelize } = require('./models'); // // 실시간으로 sequelize table 생성 확인 sequelize.sync();
+
+sequelize.sync()
+    .then(() => {
+        console.log('성공');
+    })
+    .catch((err) => {
+        console.log('실패');
+        console.error(err);
+    });
 
 const port = 3000;
 const logger = (req, res, next) => {
@@ -18,8 +28,7 @@ app.use([
         optionsSuccessStatus: 200
     }),
     express.urlencoded(),
-    express.json(),
-    cookieParser()]);
+    express.json()]);
 
 app.use('/api', router);
 

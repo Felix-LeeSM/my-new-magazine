@@ -6,8 +6,8 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     try {
         // 이미 로그인 한 상태이면
-        const { authorization } = req.cookies;
-        jwt.verify(authorization, 'secret');
+        const { token } = req.headers;
+        jwt.verify(token, 'secret');
         res.status(400).send({
             success: false,
             errorMessage: '이미 로그인 된 상태입니다.'
@@ -34,8 +34,8 @@ router.post('/', async (req, res) => {
         { expiresIn: 3600 }
     );
 
-    res.cookie('token', token, { maxAge: 3600 * 1000 });
     res.status(201).send({
+        token,
         success: true
     });
 });
