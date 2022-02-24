@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER.UNSIGNED
       },
       user_id: {
         type: Sequelize.STRING,
@@ -17,7 +17,7 @@ module.exports = {
         },
       },
       post_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER.UNSIGNED,
         onDelete: 'CASCADE',
         references: {
           model: 'Posts',
