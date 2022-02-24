@@ -8,10 +8,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Like.belongsTo(models.User, {
         foreignKey: 'user_id',
+        sourceKey: 'id',
         onDelete: 'CASCADE'
       });
       Like.belongsTo(models.Post, {
         foreignKey: 'post_id',
+        sourceKey: 'id',
         onDelete: 'CASCADE'
       });
     }
@@ -22,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
+    user_id: {
+      type: DataTypes.STRING,
+    },
+    post_id: {
+      type: DataTypes.NUMBER,
+    }
   }, {
     sequelize,
     modelName: 'Like',

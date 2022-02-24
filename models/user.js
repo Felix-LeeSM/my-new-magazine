@@ -7,15 +7,18 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Post, {
         sourceKey: 'id',
-        foreignKey: 'user_id' // Post table에 user_id라는 이름으로 추가된다.
+        foreignKey: 'user_id', // Post table에 user_id라는 이름으로 추가된다.
+        onDelete: 'CASCADE'
       });
       User.hasMany(models.Comment, {
         sourceKey: 'id',
         foreignKey: 'user_id',
+        onDelete: 'CASCADE'
       });
       User.hasMany(models.Like, {
         sourceKey: 'id',
         foreignKey: 'user_id',
+        onDelete: 'CASCADE'
       });
 
       // define association here

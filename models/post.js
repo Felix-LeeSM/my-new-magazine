@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Post.belongsTo(models.User, {
         foreignKey: 'user_id',
+        onDelete: 'CASCADE'
       });
       Post.hasMany(models.Comment, {
         sourceKey: 'id',
