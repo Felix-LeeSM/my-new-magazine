@@ -1,17 +1,36 @@
 const { Comment, Post, User, Like } = require('../../models');
+const Op = require('sequelize').Op;
 
 async function getAllPosts(req, res) {
     const { id } = res.locals;
+    let lastPost = parseInt(req.query.lastPost);
+    const number = parseInt(req.query.number);
+
+    if (isNaN(lastPost) || isNaN(number)) {
+        res.status(400).send({
+            success: false,
+            errorMessage: '잘못된 요청입니다.'
+        })
+        return;
+    }
+
+    if (lastPost === 0) {
+        lastPost = Infinity
+    }
+
     const posts = await Post.findAll({
         order: [['id', 'DESC']],
-        include: [Like, Comment]
+        include: [Like, Comment],
+        where: {
+            [Op.lt]: lastPost,
+        }
     }); // 수정 되어도 글은 밑에 위치하게 됨.
 
     if (!posts.length) {
         res.send({
             success: true,
             posts,
-            Message: '작성된 글이 없습니다.'
+            errorMessage: '작성된 글이 없습니다.'
         });
         return;
     }
@@ -33,9 +52,20 @@ async function getAllPosts(req, res) {
         each.dataValues.like_check = like ? true : false;
     }
 
+    if (posts.length < interval) {
+        res.send({
+            success: true,
+            posts,
+            Message: '작성된 글이 없습니다.'
+        });
+        return;
+    }
+
+
     res.send({
         Auth: id ? true : false,
         success: true,
+        isLast: false,
         posts
     });
 }
