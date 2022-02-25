@@ -8,6 +8,7 @@ async function logIn(req, res) {
     try {
         // 이미 로그인 한 상태이면
         const { token } = req.headers;
+        console.log(token);
         jwt.verify(token, SECRET_KEY);
         res.status(400).send({
             success: false,
@@ -18,7 +19,7 @@ async function logIn(req, res) {
     } catch (err) { }
 
     const { id, password } = req.body;
-
+    console.log(req.body);
     if (!(id && password)) {
         res.status(400).send({
             success: false,
