@@ -18,11 +18,13 @@ router.get('/', async (req, res) => {
         where: { id },
         attributes: [nickname, profile_img_url]
     });
+    const nickname = user.nickname;
+    const profile_img_url = user.profile_img_url;
     res.send({
         success: true,
         id,
-        nickname: user.nickname,
-        profile_img_url: user.profile_img_url
+        nickname,
+        profile_img_url
     });
 });
 
