@@ -109,7 +109,7 @@ async function postPost(req, res) {
 
     if (!(content && img_url && type)) {
         console.log(456)
-        res.status(401).send({
+        res.status(400).send({
             success: false,
             errorMessage: '게시글을 작성해주세요.'
         });
