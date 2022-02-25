@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const { getAllPosts, getOnePost, postPost, putPost, deletePost } = require('./postFunc')
+
 // 전체 게시글 불러오기
 router.get('/', getAllPosts);
 
@@ -8,7 +9,6 @@ router.get('/', getAllPosts);
 router.get('/:postId', getOnePost);
 
 // 게시글 작성
-// 이미지 받는 걸 추가해야함.
 router.post('/', postPost);
 
 // 게시글 수정
