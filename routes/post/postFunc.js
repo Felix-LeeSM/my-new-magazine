@@ -30,15 +30,6 @@ async function getAllPosts(req, res) {
         limit: number
     }); // 수정 되어도 글은 밑에 위치하게 됨.
 
-    if (!posts.length) {
-        res.send({
-            success: true,
-            isLast: true,
-            posts
-        });
-        return;
-    }
-
     for (let each of posts) {
         each.dataValues.byMe = id === each.user_id ? true : false;
         const { nickname, profile_img_url } = await User.findOne({

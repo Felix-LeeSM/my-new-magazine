@@ -1,6 +1,7 @@
 const Op = require('sequelize').Op;
 const joi = require('joi');
 const { User } = require('../../models');
+const crypto = require('crypto');
 
 const registerSchema = joi.object({
     id: joi.string().min(3).max(25).required().email({ minDomainSegments: 2 }),
@@ -39,12 +40,12 @@ async function register(req, res) {
         });
         return;
     }
-
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('base64');
     // 가입 하면 됨!
     await User.create({
         id,
         nickname,
-        password,
+        password: hashedPassword,
         profile_img_url
     });
 

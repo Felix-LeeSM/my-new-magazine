@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../../models');
 const path = require('path');
+const crypto = require('crypto');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -25,7 +26,8 @@ async function logIn(req, res) {
         return;
     }
 
-    const existUser = await User.findOne({ where: { id, password } });
+    const hashedPassword = crypto.createHash('sha256').update(password).digest('base64');
+    const existUser = await User.findOne({ where: { id, password: hashedPassword } });
 
     if (!existUser) {
         res.status(400).send({
