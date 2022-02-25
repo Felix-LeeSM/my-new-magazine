@@ -22,8 +22,8 @@ const logger = (req, res, next) => {
 };
 
 app.use([
-    logger,
     cors(),
+    logger,
     express.urlencoded(),
     express.json()]);
 
