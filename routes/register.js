@@ -15,10 +15,10 @@ const registerSchema = joi.object({
 
 
 router.post('/', async (req, res) => {
-    const { id, nickname, password, password_check, profile_img_url } = req.body;
+    const { id, nickname, password, confirmPassword, profile_img_url } = req.body;
 
     if (registerSchema.validate(req.body).error ||
-        password !== password_check ||
+        password !== confirmPassword ||
         password.includes(nickname)) {
 
         res.status(400).send({

@@ -112,6 +112,7 @@ router.post('/', async (req, res) => {
 
     const { content, img_url } = req.body;
 
+    console.log(content, img_url)
     if (!(content && img_url)) {
         res.status(401).send({
             success: false,
