@@ -184,7 +184,7 @@ router.delete('/:postId', async (req, res) => {
 
     await Post.destroy({
         where: {
-            post_id
+            id: post_id
         }
     });
     await Like.destroy({
