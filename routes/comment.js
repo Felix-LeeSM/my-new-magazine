@@ -1,9 +1,8 @@
 const express = require('express');
-const forRegistered = require('./forRegistered');
 const { Comment, Post } = require('../models');
 const router = express.Router();
 
-router.post('/:postId', forRegistered, async (req, res) => {
+router.post('/:postId', async (req, res) => {
     const { id } = res.locals;
     const { text } = req.body;
     const post_id = parseInt(req.params.postId);
@@ -31,7 +30,7 @@ router.post('/:postId', forRegistered, async (req, res) => {
 
 
 
-router.put('/:postId/:commentId', forRegistered, async (req, res) => {
+router.put('/:postId/:commentId', async (req, res) => {
     const { id } = res.locals;
 
     const { text } = req.body;
@@ -55,7 +54,7 @@ router.put('/:postId/:commentId', forRegistered, async (req, res) => {
     })
 });
 
-router.delete('/:postId/:commentId', forRegistered, async (req, res) => {
+router.delete('/:postId/:commentId', async (req, res) => {
     const { id } = res.locals;
 
     const comment_id = parseInt(req.params.commentId);
