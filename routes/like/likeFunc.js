@@ -1,7 +1,6 @@
 const { Like, Post } = require('../../models')
 
 async function postLike(req, res) {
-    console.log(res.locals);
     const { id } = res.locals;
 
     if (!id) {
@@ -9,7 +8,6 @@ async function postLike(req, res) {
             success: false,
             errorMessage: '로그인 후 이용해주세요.'
         });
-        console.log(3);
         return;
     }
 
