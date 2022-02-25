@@ -2,7 +2,6 @@ const { Like, Post } = require('../../models')
 
 async function postLike(req, res) {
     const { id } = res.locals;
-
     if (!id) {
         res.status(401).send({
             success: false,
@@ -12,7 +11,6 @@ async function postLike(req, res) {
     }
 
     const post_id = parseInt(req.params.postId);
-
     const post = await Post.findOne({ where: { id: post_id } });
     if (!post) {
         res.status(401).send({
@@ -23,7 +21,6 @@ async function postLike(req, res) {
     }
 
     const like = await Like.findOne({ where: { user_id: id, post_id } });
-
     if (like) {
         res.status(401).send({
             success: false,
@@ -31,8 +28,6 @@ async function postLike(req, res) {
         })
         return;
     }
-
-
 
     await Like.create({
         post_id,

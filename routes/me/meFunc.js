@@ -1,5 +1,7 @@
 const { User } = require('../../models/index');
 const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+const SECRET_KEY = process.env.SECRET_KEY;
 
 async function me(req, res, next) {
     const { token } = req.headers;
