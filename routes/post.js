@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
     const { id } = res.locals;
     const { content, img_url, type } = req.body;
 
-    if (!(content && img_url)) {
+    if (!(content && img_url && type)) {
         res.status(401).send({
             success: false,
             errorMessage: '게시글을 작성해주세요.'
