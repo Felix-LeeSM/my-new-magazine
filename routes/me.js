@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
     const { id } = jwt.decode(token);
     const user = await User.findOne({
         where: { id },
-        attributes: [nickname, profile_img_url]
+        attributes: ['nickname', 'profile_img_url']
     });
     const nickname = user.nickname;
     const profile_img_url = user.profile_img_url;
