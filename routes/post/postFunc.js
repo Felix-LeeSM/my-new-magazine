@@ -22,19 +22,20 @@ async function getAllPosts(req, res) {
         order: [['id', 'DESC']],
         include: [Like, Comment],
         where: {
-            [Op.lt]: lastPost,
-        }
+            id: { [Op.lt]: lastPost },
+        },
+        limit: number
     }); // 수정 되어도 글은 밑에 위치하게 됨.
 
     if (!posts.length) {
         res.send({
             success: true,
+            isLast: true,
             posts,
             errorMessage: '작성된 글이 없습니다.'
         });
         return;
     }
-
 
     for (let each of posts) {
         each.dataValues.byMe = id === each.user_id ? true : false;
@@ -56,6 +57,7 @@ async function getAllPosts(req, res) {
         res.send({
             success: true,
             posts,
+            isLast: true,
             Message: '작성된 글이 없습니다.'
         });
         return;
