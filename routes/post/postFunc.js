@@ -57,7 +57,7 @@ async function getAllPosts(req, res) {
         each.dataValues.like_check = like ? true : false;
     }
 
-    if (posts.length < interval) {
+    if (posts.length < number) {
         res.send({
             success: true,
             posts,
