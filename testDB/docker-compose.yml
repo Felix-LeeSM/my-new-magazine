@@ -3,8 +3,6 @@ services:
   testdb:
     image: 'mysql:5.7'
     restart: always
-    volumes:
-      - ./test:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=1234
       - MYSQL_DATABASE=testDB

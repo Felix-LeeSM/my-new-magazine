@@ -1,4 +1,4 @@
-const { Comment, Post, User, Like } = require('../../models')
+const { Comment, Post, User, Like } = require('../../models');
 
 async function getAllPosts(req, res) {
     const { id } = res.locals;

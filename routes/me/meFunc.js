@@ -1,12 +1,13 @@
 const { User } = require('../../models/index');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const SECRET_KEY = process.env.SECRET_KEY;
 
 async function me(req, res, next) {
     const { token } = req.headers;
     try {
-        jwt.verify(token, 'secret');
+        jwt.verify(token, SECRET_KEY);
     } catch (err) {
         res.status(400).send({
             success: false,

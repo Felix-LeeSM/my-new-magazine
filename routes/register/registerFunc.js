@@ -7,7 +7,7 @@ const registerSchema = joi.object({
     nickname: joi.string().alphanum().min(3).max(9).required(),
     profile_img_url: joi.string().required(),
     password: joi.string().min(5).max(20).required(),
-    confirmPassword: joi.string().min(5).max(20).required().ref('password')
+    confirmPassword: joi.ref('password')
 });
 
 async function register(req, res) {
@@ -33,7 +33,7 @@ async function register(req, res) {
     });
 
     if (existUser) {
-        res.send({
+        res.status(400).send({
             success: false,
             errorMessage: '닉네임 또는 아이디가 중복되는 유저가 있습니다.'
         });
