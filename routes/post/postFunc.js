@@ -113,6 +113,7 @@ async function postPost(req, res) {
         });
         return;
     }
+    console.log(typeof type)
 
     await Post.create({
         content,
