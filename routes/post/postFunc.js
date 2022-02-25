@@ -25,7 +25,7 @@ async function getAllPosts(req, res) {
         order: [['id', 'DESC']],
         include: [Like, Comment],
         where: {
-            id: { [Op.lt]: lastpost },
+            id: { [Op.lt]: 1000000 },
         },
         limit: number
     }); // 수정 되어도 글은 밑에 위치하게 됨.
