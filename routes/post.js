@@ -37,7 +37,6 @@ router.get('/', async (req, res) => {
         post.dataValues.like_check = like ? true : false;
     }
 
-    console.log(posts[0]);
     res.send({
         Auth: id ? true : false,
         success: true,
@@ -109,10 +108,8 @@ router.get('/:postId', async (req, res) => {
 // 이미지 받는 걸 추가해야함.
 router.post('/', async (req, res) => {
     const { id } = res.locals;
-
     const { content, img_url } = req.body;
 
-    console.log(content, img_url)
     if (!(content && img_url)) {
         res.status(401).send({
             success: false,
