@@ -99,6 +99,7 @@ async function postPost(req, res) {
     const { content, img_url, type } = req.body;
 
     if (!id) {
+        console.log(123)
         res.status(401).send({
             success: false,
             errorMessage: '로그인 후 이용해주세요'
@@ -107,6 +108,7 @@ async function postPost(req, res) {
     }
 
     if (!(content && img_url && type)) {
+        console.log(456)
         res.status(401).send({
             success: false,
             errorMessage: '게시글을 작성해주세요.'
