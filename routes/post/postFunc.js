@@ -3,10 +3,10 @@ const Op = require('sequelize').Op;
 
 async function getAllPosts(req, res) {
     const { id } = res.locals;
-    let lastPost = parseInt(req.query.lastPost);
+    let lastpost = parseInt(req.query.lastpost);
     const number = parseInt(req.query.number);
 
-    if (isNaN(lastPost) || isNaN(number)) {
+    if (isNaN(lastpost) || isNaN(number)) {
         res.status(400).send({
             success: false,
             errorMessage: '잘못된 요청입니다.'
@@ -14,15 +14,15 @@ async function getAllPosts(req, res) {
         return;
     }
 
-    if (lastPost === 0) {
-        lastPost = Infinity
+    if (lastpost === 0) {
+        lastpost = Infinity
     }
 
     const posts = await Post.findAll({
         order: [['id', 'DESC']],
         include: [Like, Comment],
         where: {
-            id: { [Op.lt]: lastPost },
+            id: { [Op.lt]: lastpost },
         },
         limit: number
     }); // 수정 되어도 글은 밑에 위치하게 됨.
