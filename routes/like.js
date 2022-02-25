@@ -1,10 +1,10 @@
 const express = require('express');
 const { Like, Post } = require('../models')
 const router = express.Router();
-const forRegistered = require('./forRegistered')
+
 
 // 좋아요 누르기
-router.post('/:postId/like', forRegistered, async (req, res) => {
+router.post('/:postId/like', async (req, res) => {
     const { id } = res.locals;
     const post_id = parseInt(req.params.postId);
 
@@ -38,7 +38,7 @@ router.post('/:postId/like', forRegistered, async (req, res) => {
 });
 
 // 좋아요 제거
-router.delete('/:postId/like', forRegistered, async (req, res) => {
+router.delete('/:postId/like', async (req, res) => {
     const { id } = res.locals;
     const post_id = parseInt(req.params.postId);
 
