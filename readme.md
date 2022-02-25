@@ -17,8 +17,8 @@ url
 | /api/post              |  `GET`   |                               header: <br>{token}<br>                                |          {success, <br>posts}           |
 | /api/post/:postId      |  `GET`   |                               header: <br>{token}<br>                                |           {success, <br>post}           |
 | /api/post              |  `POST`  |          header: <br>{token}<br>body: <br>{content, <br>img_url, <br>type}           |                {success}                |
-| /api/post              |  `PUT`   |         header: <br>{token}<br> body: <br>{content, <br>img_url, , <br>type          |                {success}                |
-| /api/post              | `DELETE` |                               header: <br>{token}<br>                                |                {success}                |
+| /api/post/:postId      |  `PUT`   |         header: <br>{token}<br> body: <br>{content, <br>img_url, , <br>type          |                {success}                |
+| /api/post/:postId      | `DELETE` |                               header: <br>{token}<br>                                |                {success}                |
 |                        |          |                                                                                      |                                         |
 | /api/post/:postId/like |  `POST`  |                               header: <br>{token}<br>                                |                {success}                |
 | /api/post/:postId/like | `DELETE` |                               header: <br>{token}<br>                                |                {success}                |
