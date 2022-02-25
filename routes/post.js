@@ -108,7 +108,7 @@ router.get('/:postId', async (req, res) => {
 // 이미지 받는 걸 추가해야함.
 router.post('/', async (req, res) => {
     const { id } = res.locals;
-    const { content, img_url } = req.body;
+    const { content, img_url, type } = req.body;
 
     if (!(content && img_url)) {
         res.status(401).send({
@@ -121,7 +121,8 @@ router.post('/', async (req, res) => {
     await Post.create({
         content,
         user_id: id,
-        img_url
+        img_url,
+        type
     });
 
     res.status(201).send({
@@ -149,9 +150,9 @@ router.put('/:postId', async (req, res) => {
         return;
     }
 
-    const { content, img_url } = req.body;
+    const { content, img_url, type } = req.body;
     await Post.update(
-        { content: content, img_url, },
+        { content: content, img_url, type },
         { where: { id: post_id } }
     );
 
