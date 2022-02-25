@@ -107,8 +107,7 @@ async function postPost(req, res) {
         return;
     }
 
-    console.log([content, img_url, type])
-    if (!(content && img_url && type)) {
+    if (!(content && img_url) || typeof type !== 'number') {
         console.log(456)
         res.status(400).send({
             success: false,
@@ -116,7 +115,6 @@ async function postPost(req, res) {
         });
         return;
     }
-    console.log(typeof type)
 
     await Post.create({
         content,
