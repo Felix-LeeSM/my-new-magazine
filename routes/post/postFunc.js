@@ -16,7 +16,7 @@ async function getAllPosts(req, res) {
     }
 
     if (lastpost === 0) {
-        lastpost = Infinity
+        lastpost = 2147483647
     }
 
     console.log('inf?', lastpost, typeof lastpost)
@@ -25,7 +25,7 @@ async function getAllPosts(req, res) {
         order: [['id', 'DESC']],
         include: [Like, Comment],
         where: {
-            id: { [Op.lt]: 1000000 },
+            id: { [Op.lt]: lastpost },
         },
         limit: number
     }); // 수정 되어도 글은 밑에 위치하게 됨.
@@ -62,7 +62,6 @@ async function getAllPosts(req, res) {
             success: true,
             posts,
             isLast: true,
-            Message: '작성된 글이 없습니다.'
         });
         console.log(78978978789789)
         return;
@@ -70,7 +69,6 @@ async function getAllPosts(req, res) {
 
 
     res.send({
-        Auth: id ? true : false,
         success: true,
         isLast: false,
         posts
@@ -98,7 +96,6 @@ async function getOnePost(req, res) {
     post.dataValues.like_count = post.Likes.length;
     if (!id) {
         res.send({
-            Auth: false,
             success: true,
             post
         });
@@ -126,7 +123,6 @@ async function getOnePost(req, res) {
     }
 
     res.send({
-        Auth: id ? true : false,
         success: true,
         post
     });
@@ -189,7 +185,6 @@ async function putPost(req, res) {
     );
 
     res.send({
-        Auth: true,
         success: true,
     });
 }
@@ -230,7 +225,6 @@ async function deletePost(req, res) {
     });
 
     res.send({
-        Auth: true,
         success: true,
     });
 }
