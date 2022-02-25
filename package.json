@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha $(find ./routes -name '*.spec.js') --recursive -w"
+    "test": "mocha -V"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,9 @@
     "sequelize-cli": "^6.4.1"
   },
   "devDependencies": {
-    "mocha": "^9.2.1",
-    "should": "^13.2.3"
+    "chai": "^4.3.6",
+    "node-mocks-http": "^1.11.0",
+    "should": "^13.2.3",
+    "supertest": "^6.2.2"
   }
 }

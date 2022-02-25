@@ -5,13 +5,12 @@ const router = require('./routes/index.js');
 const app = express();
 
 const { sequelize } = require('./models'); // // 실시간으로 sequelize table 생성 확인 sequelize.sync();
-
 sequelize.sync()
     .then(() => {
-        console.log('성공');
+        console.log('db 연결');
     })
     .catch((err) => {
-        console.log('실패');
+        console.log('db 연결 실패');
         console.error(err);
     });
 
@@ -33,3 +32,5 @@ app.listen(port, () => {
     console.log('port:', port, ', server on');
 });
 
+
+module.export = app;

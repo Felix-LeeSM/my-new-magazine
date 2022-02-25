@@ -14,4 +14,4 @@ function authFunc(req, res, next) {
     next();
 }
 
-module.exports = { authFunc }
+module.exports = { authFunc };

@@ -49,7 +49,7 @@ async function getOnePost(req, res) {
         where: { id: post_id }
     });
     if (!post) {
-        res.send({
+        res.status(400).send({
             success: false,
             errorMessage: '해당 글이 존재하지 않습니다.'
         })
@@ -97,6 +97,14 @@ async function getOnePost(req, res) {
 async function postPost(req, res) {
     const { id } = res.locals;
     const { content, img_url, type } = req.body;
+
+    if (!id) {
+        res.status(401).send({
+            success: false,
+            errorMessage: '로그인 후 이용해주세요'
+        });
+        return;
+    }
 
     if (!(content && img_url && type)) {
         res.status(401).send({
