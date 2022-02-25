@@ -4,10 +4,11 @@ async function postLike(req, res) {
     const { id } = res.locals;
 
     if (!id) {
-        res.status(400).send({
+        res.status(401).send({
             success: false,
             errorMessage: '로그인 후 이용해주세요.'
         });
+        console.log(3);
         return;
     }
 
