@@ -9,7 +9,7 @@ const registerSchema = joi.object({
     nickname: joi.string().alphanum().min(3).max(9).required(),
     profile_img_url: joi.string().required(),
     password: joi.string().min(5).max(20).required(),
-    password_check: joi.string().min(5).max(20).required()
+    confirmPassword: joi.string().min(5).max(20).required()
 });
 
 
