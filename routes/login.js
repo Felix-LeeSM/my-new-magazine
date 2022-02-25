@@ -17,6 +17,13 @@ router.post('/', async (req, res) => {
 
     const { id, password } = req.body;
 
+    if (!(id && password)) {
+        res.status(400).send({
+            success: false,
+            errorMessage: '아이디나 비밀번호를 확인해주세요.'
+        });
+        return;
+    }
 
     const existUser = await User.findOne({ where: { id, password } });
 
