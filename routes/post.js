@@ -1,5 +1,4 @@
 const express = require('express');
-const forRegistered = require('./forRegistered');
 const { Comment, Post, User, Like } = require('../models')
 const router = express.Router();
 
@@ -108,7 +107,7 @@ router.get('/:postId', async (req, res) => {
 
 // 게시글 작성
 // 이미지 받는 걸 추가해야함.
-router.post('/', forRegistered, async (req, res) => {
+router.post('/', async (req, res) => {
     const { id } = res.locals;
 
     const { content, img_url } = req.body;
@@ -134,7 +133,7 @@ router.post('/', forRegistered, async (req, res) => {
 });
 
 // 게시글 수정
-router.put('/:postId', forRegistered, async (req, res) => {
+router.put('/:postId', async (req, res) => {
     const { id } = res.locals;
 
     const post_id = parseInt(req.params.postId);

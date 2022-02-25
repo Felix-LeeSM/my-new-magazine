@@ -23,10 +23,7 @@ const logger = (req, res, next) => {
 
 app.use([
     logger,
-    cors({
-        origin: 'http:// frontend web page',
-        optionsSuccessStatus: 200
-    }),
+    cors(),
     express.urlencoded(),
     express.json()]);
 
