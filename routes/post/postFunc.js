@@ -5,13 +5,13 @@ async function getAllPosts(req, res) {
     const { id } = res.locals;
     let lastpost = parseInt(req.query.lastpost);
     const number = parseInt(req.query.number);
-    console.log(lastpost, typeof lastpost, number, typeof number);
+
     if (isNaN(lastpost) || isNaN(number)) {
         res.status(400).send({
             success: false,
             errorMessage: '잘못된 요청입니다.'
         });
-        console.log(123123123123123);
+
         return;
     }
 
@@ -34,10 +34,8 @@ async function getAllPosts(req, res) {
         res.send({
             success: true,
             isLast: true,
-            posts,
-            errorMessage: '작성된 글이 없습니다.'
+            posts
         });
-        console.log(456456456456456456)
         return;
     }
 
@@ -63,10 +61,8 @@ async function getAllPosts(req, res) {
             posts,
             isLast: true,
         });
-        console.log(78978978789789)
         return;
     }
-
 
     res.send({
         success: true,
