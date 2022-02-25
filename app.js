@@ -28,9 +28,11 @@ app.use([
 
 app.use('/api', router);
 
+
+
 app.listen(port, () => {
     console.log('port:', port, ', server on');
 });
 
 
-module.export = app;
+module.exports = app;

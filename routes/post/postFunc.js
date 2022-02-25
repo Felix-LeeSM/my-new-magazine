@@ -2,22 +2,22 @@ const { Comment, Post, User, Like } = require('../../models')
 
 async function getAllPosts(req, res) {
     const { id } = res.locals;
-    const post = await Post.findAll({
+    const posts = await Post.findAll({
         order: [['id', 'DESC']],
         include: [Like, Comment]
     }); // 수정 되어도 글은 밑에 위치하게 됨.
 
-    if (!post.length) {
+    if (!posts.length) {
         res.send({
             success: true,
-            post,
+            posts,
             Message: '작성된 글이 없습니다.'
         });
         return;
     }
 
 
-    for (let each of post) {
+    for (let each of posts) {
         each.dataValues.byMe = id === each.user_id ? true : false;
         const { nickname, profile_img_url } = await User.findOne({
             attributes: ['nickname', 'profile_img_url'],
@@ -36,7 +36,7 @@ async function getAllPosts(req, res) {
     res.send({
         Auth: id ? true : false,
         success: true,
-        post
+        posts
     });
 }
 
@@ -48,6 +48,7 @@ async function getOnePost(req, res) {
         include: [Comment, Like],
         where: { id: post_id }
     });
+
     if (!post) {
         res.status(400).send({
             success: false,
