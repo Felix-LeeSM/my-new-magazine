@@ -17,6 +17,15 @@ async function me(req, res, next) {
         where: { id },
         attributes: ['nickname', 'profile_img_url']
     });
+
+    if (!user) {
+        res.status(401).send({
+            success: false,
+            errorMessage: '다시 로그인 후 이용해주세요.'
+        })
+        return;
+    }
+
     const nickname = user.nickname;
     const profile_img_url = user.profile_img_url;
     res.send({
