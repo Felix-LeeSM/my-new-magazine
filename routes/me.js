@@ -5,7 +5,7 @@ const router = require('express')();
 router.get('/', async (req, res) => {
     const { token } = req.headers;
     try {
-        const { id } = jwt.verify(token, 'secret');
+        jwt.verify(token, 'secret');
     } catch (err) {
         res.send({
             success: false,
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
         });
         return;
     }
-
+    const { id } = jwt.decode(token);
     const user = await User.findOne({
         where: { id },
         attributes: [nickname, profile_img_url]
