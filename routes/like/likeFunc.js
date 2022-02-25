@@ -2,11 +2,19 @@ const { Like, Post } = require('../../models')
 
 async function postLike(req, res) {
     const { id } = res.locals;
+
+    if (!id) {
+        res.status(400).send({
+            success: false,
+            errorMessage: '로그인 후 이용해주세요.'
+        });
+        return;
+    }
+
     const post_id = parseInt(req.params.postId);
 
     const post = await Post.findOne({ where: { id: post_id } });
     if (!post) {
-        console.log(1)
         res.status(401).send({
             success: false,
             errorMessage: '존재하지 않는 게시글입니다.'
@@ -15,8 +23,8 @@ async function postLike(req, res) {
     }
 
     const like = await Like.findOne({ where: { user_id: id, post_id } });
+
     if (like) {
-        console.log(2)
         res.status(401).send({
             success: false,
             errorMessage: '이미 좋아요한 게시글입니다.'
@@ -25,7 +33,6 @@ async function postLike(req, res) {
     }
 
 
-    console.log(3)
 
     await Like.create({
         post_id,
@@ -39,6 +46,15 @@ async function postLike(req, res) {
 
 async function deleteLike(req, res) {
     const { id } = res.locals;
+
+    if (!id) {
+        res.status(400).send({
+            success: false,
+            errorMessage: '로그인 후 이용해주세요.'
+        });
+        return;
+    }
+
     const post_id = parseInt(req.params.postId);
 
     const like = await Like.findOne({ where: { user_id: id, post_id } });
