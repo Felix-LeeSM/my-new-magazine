@@ -6,41 +6,41 @@ const router = express.Router();
 // 전체 게시글 불러오기
 router.get('/', async (req, res) => {
     const { id, logOn } = res.locals;
-    const posts = await Post.findAll({
+    const post = await Post.findAll({
         order: [['id', 'DESC']],
         include: [Like, Comment]
     }); // 수정 되어도 글은 밑에 위치하게 됨.
 
-    if (!posts.length) {
+    if (!post.length) {
         res.send({
             success: true,
-            posts,
+            post,
             Message: '작성된 글이 없습니다.'
         });
         return;
     }
 
 
-    for (let post of posts) {
-        post.dataValues.byMe = id === post.user_id ? true : false;
-        const { nickname, img_url } = await User.findOne({
+    for (let each of post) {
+        each.dataValues.byMe = id === each.user_id ? true : false;
+        const { nickname, profile_img_url } = await User.findOne({
             attributes: ['nickname', 'profile_img_url'],
-            where: { id: post.user_id }
+            where: { id: each.user_id }
         });
-        post.dataValues.nickname = nickname;
-        post.dataValues.profile_img_url = img_url;
-        post.dataValues.like_count = post.Likes.length;
-        post.dataValues.comment_count = post.Comments.length;
-        const like = post.Likes.find((each) => {
+        each.dataValues.nickname = nickname;
+        each.dataValues.profile_img_url = profile_img_url;
+        each.dataValues.like_count = each.Likes.length;
+        each.dataValues.comment_count = each.Comments.length;
+        const like = each.Likes.find((each) => {
             return each.user_id === id
         })
-        post.dataValues.like_check = like ? true : false;
+        each.dataValues.like_check = like ? true : false;
     }
 
     res.send({
         Auth: id ? true : false,
         success: true,
-        posts
+        post
     });
     return;
 

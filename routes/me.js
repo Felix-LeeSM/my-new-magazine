@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
     try {
         jwt.verify(token, 'secret');
     } catch (err) {
-        res.send({
+        res.status(400).send({
             success: false,
             errorMessage: '로그인 후 이용해주세요'
         });
