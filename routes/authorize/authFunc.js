@@ -1,9 +1,6 @@
-const express = require('express');
 const jwt = require('jsonwebtoken');
 
-const router = express.Router();
-
-router.use((req, res, next) => {
+function authFunc(req, res, next) {
     try {
         const { token } = req.headers;
         // { id, nickname } 꼴로 locals.user에 들어있음.
@@ -15,6 +12,6 @@ router.use((req, res, next) => {
         res.locals = { id: '', logOn: false }
     }
     next();
-});
+}
 
-module.exports = router;
+module.exports = { authFunc }

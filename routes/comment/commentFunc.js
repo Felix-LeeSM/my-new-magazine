@@ -1,8 +1,7 @@
-const express = require('express');
-const { Comment, Post } = require('../models');
-const router = express.Router();
+const { Comment, Post } = require('../../models');
 
-router.post('/:postId', async (req, res) => {
+// 댓글 쓰기
+async function postComment(req, res) {
     const { id } = res.locals;
     const { text } = req.body;
     const post_id = parseInt(req.params.postId);
@@ -26,11 +25,10 @@ router.post('/:postId', async (req, res) => {
     res.send({
         success: true
     });
-});
+}
 
-
-
-router.put('/:postId/:commentId', async (req, res) => {
+// 댓글 수정
+async function putComment(req, res) {
     const { id } = res.locals;
 
     const { text } = req.body;
@@ -52,9 +50,10 @@ router.put('/:postId/:commentId', async (req, res) => {
     res.send({
         success: true
     })
-});
+}
 
-router.delete('/:postId/:commentId', async (req, res) => {
+// 댓글 삭제
+async function deleteComment(req, res) {
     const { id } = res.locals;
 
     const comment_id = parseInt(req.params.commentId);
@@ -75,6 +74,6 @@ router.delete('/:postId/:commentId', async (req, res) => {
     res.send({
         success: true,
     })
-});
+}
 
-module.exports = router;
+module.exports = { postComment, putComment, deleteComment };

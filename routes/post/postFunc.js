@@ -1,11 +1,7 @@
-const express = require('express');
-const { Comment, Post, User, Like } = require('../models')
-const router = express.Router();
+const { Comment, Post, User, Like } = require('../../models')
 
-
-// 전체 게시글 불러오기
-router.get('/', async (req, res) => {
-    const { id, logOn } = res.locals;
+async function getAllPosts(req, res) {
+    const { id } = res.locals;
     const post = await Post.findAll({
         order: [['id', 'DESC']],
         include: [Like, Comment]
@@ -42,15 +38,11 @@ router.get('/', async (req, res) => {
         success: true,
         post
     });
-    return;
+}
 
-});
-
-// 특정 게시글 조회
-router.get('/:postId', async (req, res) => {
+async function getOnePost(req, res) {
     const { id } = res.locals;
     const post_id = parseInt(req.params.postId);
-
     // 게시글이 존재하는지?
     let post = await Post.findOne({
         include: [Comment, Like],
@@ -65,7 +57,6 @@ router.get('/:postId', async (req, res) => {
     }
 
     // 좋아요를 몇개 눌렀는지?, 내가 좋아요 눌렀는지?
-
     post.dataValues.like_count = post.Likes.length;
     if (!id) {
         res.send({
@@ -87,7 +78,6 @@ router.get('/:postId', async (req, res) => {
     }).profile_img_url;
 
     // 댓글들과 댓글 작성 유저들의 프로필 사진
-
     for (let comment of post.Comments) {
         const user = await User.findOne({
             where: { id: comment.user_id },
@@ -102,11 +92,9 @@ router.get('/:postId', async (req, res) => {
         success: true,
         post
     });
-});
+}
 
-// 게시글 작성
-// 이미지 받는 걸 추가해야함.
-router.post('/', async (req, res) => {
+async function postPost(req, res) {
     const { id } = res.locals;
     const { content, img_url, type } = req.body;
 
@@ -128,11 +116,9 @@ router.post('/', async (req, res) => {
     res.status(201).send({
         success: true
     });
-    return;
-});
+}
 
-// 게시글 수정
-router.put('/:postId', async (req, res) => {
+async function putPost(req, res) {
     const { id } = res.locals;
 
     const post_id = parseInt(req.params.postId);
@@ -159,11 +145,10 @@ router.put('/:postId', async (req, res) => {
     res.send({
         Auth: true,
         success: true,
-    })
-});
+    });
+}
 
-// 게시글 삭제
-router.delete('/:postId', async (req, res) => {
+async function deletePost(req, res) {
     const { id } = res.locals;
 
     const post_id = parseInt(req.params.postId);
@@ -202,6 +187,6 @@ router.delete('/:postId', async (req, res) => {
         Auth: true,
         success: true,
     });
-});
+}
 
-module.exports = router;
+module.exports = { getAllPosts, getOnePost, postPost, putPost, deletePost };

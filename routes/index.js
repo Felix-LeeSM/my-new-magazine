@@ -1,12 +1,12 @@
 const router = require('express')();
 
-const registerRouter = require('./register');
-const loginRouter = require('./login');
-const authorizeRouter = require('./authorize');
-const postRouter = require('./post');
-const commentRouter = require('./comment');
-const likeRouter = require('./like');
-const meRouter = require('./me');
+const registerRouter = require('./register/register');
+const loginRouter = require('./login/login');
+const authorizeRouter = require('./authorize/authorize');
+const postRouter = require('./post/post');
+const commentRouter = require('./comment/comment');
+const likeRouter = require('./like/like');
+const meRouter = require('./me/me');
 
 router.use(authorizeRouter)
 router.use('/post', [postRouter, likeRouter]);

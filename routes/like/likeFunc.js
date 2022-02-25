@@ -1,10 +1,6 @@
-const express = require('express');
-const { Like, Post } = require('../models')
-const router = express.Router();
+const { Like, Post } = require('../../models')
 
-
-// 좋아요 누르기
-router.post('/:postId/like', async (req, res) => {
+async function postLike(req, res) {
     const { id } = res.locals;
     const post_id = parseInt(req.params.postId);
 
@@ -26,7 +22,6 @@ router.post('/:postId/like', async (req, res) => {
         return;
     }
 
-
     await Like.create({
         post_id,
         user_id: id
@@ -35,10 +30,9 @@ router.post('/:postId/like', async (req, res) => {
     res.status(201).send({
         success: true
     });
-});
+}
 
-// 좋아요 제거
-router.delete('/:postId/like', async (req, res) => {
+async function deleteLike(req, res) {
     const { id } = res.locals;
     const post_id = parseInt(req.params.postId);
 
@@ -65,7 +59,6 @@ router.delete('/:postId/like', async (req, res) => {
     res.send({
         success: true
     });
-});
+}
 
-
-module.exports = router;
+module.exports = { postLike, deleteLike };

@@ -1,9 +1,7 @@
-const express = require('express');
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
-const router = express.Router();
+const { User } = require('../../models');
 
-router.post('/', async (req, res) => {
+async function logIn(req, res) {
     try {
         // 이미 로그인 한 상태이면
         const { token } = req.headers;
@@ -45,6 +43,6 @@ router.post('/', async (req, res) => {
         token,
         success: true
     });
-});
+}
 
-module.exports = router;
+module.exports = { logIn };

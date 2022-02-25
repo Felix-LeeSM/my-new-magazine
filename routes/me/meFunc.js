@@ -1,8 +1,7 @@
-const { User } = require('../models/index');
+const { User } = require('../../models/index');
 const jwt = require('jsonwebtoken');
-const router = require('express')();
 
-router.get('/', async (req, res) => {
+async function me(req, res, next) {
     const { token } = req.headers;
     try {
         jwt.verify(token, 'secret');
@@ -26,6 +25,6 @@ router.get('/', async (req, res) => {
         nickname,
         profile_img_url
     });
-});
+}
 
-module.exports = router;
+module.exports = { me };

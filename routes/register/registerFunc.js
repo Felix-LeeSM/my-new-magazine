@@ -1,8 +1,6 @@
 const Op = require('sequelize').Op;
 const joi = require('joi');
-const express = require('express');
-const router = express.Router();
-const { User } = require('../models');
+const { User } = require('../../models');
 
 const registerSchema = joi.object({
     id: joi.string().min(3).max(25).required().email({ minDomainSegments: 2 }),
@@ -12,9 +10,7 @@ const registerSchema = joi.object({
     confirmPassword: joi.string().min(5).max(20).required()
 });
 
-
-
-router.post('/', async (req, res) => {
+async function register(req, res) {
     const { id, nickname, password, confirmPassword, profile_img_url } = req.body;
 
     if (registerSchema.validate(req.body).error ||
@@ -51,10 +47,11 @@ router.post('/', async (req, res) => {
         nickname,
         password,
         profile_img_url
-    })
+    });
+
     res.send({
         success: true
-    })
-});
+    });
+}
 
-module.exports = router;
+module.exports = { register };
