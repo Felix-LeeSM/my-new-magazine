@@ -3,22 +3,22 @@ const jwt = require('jsonwebtoken');
 const router = require('express')();
 
 router.get('/', async (req, res) => {
-    const { token } = req.headers;
-    try {
-        const { id } = jwt.verify(token, 'secret');
-        const user = await User.findOne({
-            where: { id },
-            attributes: [nickname, profile_img_url]
-        });
+    const { id } = res.locals;
+    if (!id) {
         res.send({
-            id,
-            nickname: user.nickname,
-            profile_img_url: user.profile_img_url
+            success: false,
+            errorMessage: '로그인 후 이용해주세요'
         });
-    } catch (err) { }
-    res.status(400).send({
-        success: false,
-        errorMessage: '로그인 하지 않은 상태입니다.'
+        return;
+    }
+    const user = await User.findOne({
+        where: { id },
+        attributes: [nickname, profile_img_url]
+    });
+    res.send({
+        id,
+        nickname: user.nickname,
+        profile_img_url: user.profile_img_url
     });
 });
 
