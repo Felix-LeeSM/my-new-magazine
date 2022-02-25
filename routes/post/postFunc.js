@@ -107,6 +107,7 @@ async function postPost(req, res) {
         return;
     }
 
+    console.log([content, img_url, type])
     if (!(content && img_url && type)) {
         console.log(456)
         res.status(400).send({
