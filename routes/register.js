@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
         password !== password_check ||
         password.includes(nickname)) {
 
-        res.send({
+        res.status(400).send({
             success: false,
             errorMessage: '다시 입력해주세요.'
         });
