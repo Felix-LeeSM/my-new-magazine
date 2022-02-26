@@ -84,12 +84,12 @@ async function getOnePost(req, res) {
     }
 
     const like_count = post.Likes.length;
-    const profile_img_url = await User.findOne({
+    const author = await User.findOne({
         where: { id: post.user_id },
         attributes: ['profile_img_url']
     });
 
-    console.log(profile_img_url)
+    console.log(author.profile_img_url)
     // 좋아요를 몇개 눌렀는지?, 내가 좋아요 눌렀는지?
     post.dataValues.like_count = like_count;
     post.dataValues.profile_img_url = profile_img_url;
