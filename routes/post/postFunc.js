@@ -82,16 +82,15 @@ async function getOnePost(req, res) {
         })
         return;
     }
-    console.log(post.asdf);
-    post.dataValues.asdf = 3
-    console.log(post.asdf)
 
-    // 좋아요를 몇개 눌렀는지?, 내가 좋아요 눌렀는지?
-    post.like_count = post.Likes.length;
-    post.profile_img_url = await User.findOne({
+    const like_count = post.Likes.length;
+    const like = !!(await User.findOne({
         where: { id: post.user_id },
         attributes: ['profile_img_url']
-    }).profile_img_url;
+    }).profile_img_url + 1);
+    // 좋아요를 몇개 눌렀는지?, 내가 좋아요 눌렀는지?
+    post.like_count = like_count;
+    post.profile_img_url = like;
 
     for (let comment of post.Comments) {
         const user = await User.findOne({
