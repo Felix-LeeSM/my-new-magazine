@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const router = require('./routes/index.js');
 const requestIp = require('request-ip');
-
 const app = express();
 
 const { sequelize } = require('./models'); // // 실시간으로 sequelize table 생성 확인 sequelize.sync();
