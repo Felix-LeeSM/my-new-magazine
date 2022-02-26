@@ -13,9 +13,9 @@ const registerSchema = joi.object({
 
 async function register(req, res) {
     const { id, nickname, password, profile_img_url } = req.body;
+
     if (registerSchema.validate(req.body).error ||
         password.includes(nickname)) {
-
         res.status(400).send({
             success: false,
             errorMessage: '다시 입력해주세요.'

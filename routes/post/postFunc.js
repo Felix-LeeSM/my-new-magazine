@@ -30,6 +30,7 @@ async function getAllPosts(req, res) {
     if (lastpost === 0) {
         lastpost = 2147483647
     }
+    if (number > 30) number = 30;
 
     const posts = await Post.findAll({
         order: [['id', 'DESC']],
@@ -84,6 +85,20 @@ async function getOnePost(req, res) {
 
     // 좋아요를 몇개 눌렀는지?, 내가 좋아요 눌렀는지?
     post.dataValues.like_count = post.Likes.length;
+    post.dataValues.profile_img_url = await User.findOne({
+        where: { id: post.user_id },
+        attributes: ['profile_img_url']
+    }).profile_img_url;
+
+    for (let comment of post.Comments) {
+        const user = await User.findOne({
+            where: { id: comment.user_id },
+            attributes: ['profile_img_url', 'id']
+        });
+        comment.dataValues.profile_img_url = user.profile_img_url;
+        comment.dataValues.byMe = comment.user_id === id ? true : false;
+    }
+
     if (!id) {
         res.send({
             success: true,
@@ -96,21 +111,8 @@ async function getOnePost(req, res) {
         return each.user_id === id;
     });
     post.dataValues.byMe = id === post.user_id ? true : false;
-    post.dataValues.like_check = like ? true : false;
-    post.dataValues.profile_img_url = await User.findOne({
-        where: { id: post.user_id },
-        attributes: ['profile_img_url']
-    }).profile_img_url;
-
+    post.dataValues.like_check = like !== -1 ? true : false;
     // 댓글들과 댓글 작성 유저들의 프로필 사진
-    for (let comment of post.Comments) {
-        const user = await User.findOne({
-            where: { id: comment.user_id },
-            attributes: ['profile_img_url', 'id']
-        });
-        comment.dataValues.profile_img_url = user.profile_img_url;
-        comment.dataValues.byMe = comment.user_id === id ? true : false;
-    }
 
     res.send({
         success: true,
@@ -123,7 +125,7 @@ async function postPost(req, res) {
     const { content, img_url } = req.body;
     let type = parseInt(req.body.type);
 
-    if (!(content && img_url) || typeof type !== 'number') {
+    if (!(content && img_url) || typeof type !== 'number' || !(0 < type < 4)) {
         res.status(400).send({
             success: false,
             errorMessage: '게시글을 작성해주세요.'
