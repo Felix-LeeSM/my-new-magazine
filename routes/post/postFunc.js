@@ -82,8 +82,9 @@ async function getOnePost(req, res) {
         })
         return;
     }
-    console.log(post);
-    console.log(Array.isArray(post));
+    console.log(post.asdf);
+    post.dataValues.asdf = 3
+    console.log(post.asdf)
 
     // 좋아요를 몇개 눌렀는지?, 내가 좋아요 눌렀는지?
     post.like_count = post.Likes.length;
