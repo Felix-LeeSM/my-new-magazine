@@ -119,9 +119,10 @@ async function getOnePost(req, res) {
 }
 
 async function postPost(req, res) {
+    console.log(123123);
     const id = idCheck(req, res);
     const { content, img_url, type } = req.body;
-
+    console.log(234234);
     if (!(content && img_url) || typeof type !== 'number') {
         res.status(400).send({
             success: false,
@@ -129,7 +130,7 @@ async function postPost(req, res) {
         });
         return;
     }
-
+    console.log(345345);
     await Post.create({
         content,
         user_id: id,
