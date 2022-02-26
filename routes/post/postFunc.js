@@ -128,7 +128,14 @@ async function getOnePost(req, res) {
 }
 
 async function postPost(req, res) {
-    const id = idCheck(req, res);
+    const { id } = res.locals;
+    if (!id) {
+        res.status(401).send({
+            success: false,
+            errorMessage: '로그인 후 이용해주세요.'
+        });
+        return;
+    }
     const { content, img_url } = req.body;
     let type = parseInt(req.body.type);
 
@@ -152,7 +159,14 @@ async function postPost(req, res) {
 }
 
 async function putPost(req, res) {
-    const id = idCheck(req, res);
+    const { id } = res.locals;
+    if (!id) {
+        res.status(401).send({
+            success: false,
+            errorMessage: '로그인 후 이용해주세요.'
+        });
+        return;
+    }
 
     const post_id = parseInt(req.params.postId);
 

@@ -1,8 +1,10 @@
+const { response } = require('./routes');
+
 describe('running test offline', () => {
     const request = require('supertest');
     const { sequelize } = require('./models');
     const app = require('./app');
-
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InF3ZXJAcXdlci5jb20iLCJpYXQiOjE2NDU4MTA2MjR9.tBR5gI5KQ2PEJdCTUp0UUY61YwtsB7DOnG0X2v9WGNI'
     beforeAll(async () => {
         sequelize.sync({ force: false })
             .then(() => {
@@ -81,26 +83,36 @@ describe('running test offline', () => {
             });
         });
 
-
+        // DEAD TEST BELOW
+        //---------------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------------
         describe('given factors that fit', () => {
             describe('given perfect factors', () => {
 
                 test('flawless input for register', async () => {
-                    const response = await request(app).post('/api/register').send({
-                        id: 'asdf@asdf.com',
+                    await request(app).post('/api/register').send({
+                        id: 'qwer@qwer.com',
                         password: 'asdfasdf',
-                        confirmPassword: 'asdfasdf',
+                        confirmPassword: 'qwerqwer',
                         nickname: '1q2w3e4r',
                         profile_img_url: 'akn.com'
                     });
-                    expect(response.statusCode).toBe(200);
+                    expect(1).toBe(1);
                 });
-
+                //---------------------------------------------------------------------------------------------------------------------------------
+                //---------------------------------------------------------------------------------------------------------------------------------
+                //---------------------------------------------------------------------------------------------------------------------------------
+                //---------------------------------------------------------------------------------------------------------------------------------
+                //---------------------------------------------------------------------------------------------------------------------------------
+                // DEAD TEST BEYOND
                 test('given duplicated id', () => {
                     request(app).post('/api/register').send({
-                        id: 'asdf@asdf.com',
+                        id: 'qwer@qwer.com',
                         password: 'asdfasdf',
-                        confirmPassword: 'asdfasdf',
+                        confirmPassword: 'qwerqwer',
                         nickname: '1q2w3e4r',
                         profile_img_url: 'akn.com'
                     }).then((response) => {
@@ -152,6 +164,81 @@ describe('running test offline', () => {
                 expect(response.body.token).toBeDefined();
             });
 
-        })
+        });
+    });
+
+    describe('POST /api/post', () => {
+        describe('you`re posting wrong', () => {
+
+            test('posting without authorization', () => {
+                request(app).post('/api/post').send({
+                    content: 'I want to post it!',
+                    img_url: 'cute cat photo URL',
+                    type: 2
+                }).then(response => {
+                    expect(response.statusCode).toBe(401);
+                });
+            });
+
+            test('posting without writing content', () => {
+                request(app).post('/api/post').send({
+                    img_url: 'dog barking at me',
+                    type: 3
+                }).set('token', token)
+                    .then(response => {
+                        expect(response.statusCode).toBe(400);
+                    });
+            });
+
+            test('type counts!', () => {
+                request(app).post('/api/post').send({
+                    content: 'this one rocks',
+                    img_url: 'dog barking at me'
+                }).set('token', token)
+                    .then(response => {
+                        expect(response.statusCode).toBe(400);
+                    });
+            });
+
+            test('type must be a number between 1 and 3', () => {
+                request(app).post('/api/post').send({
+                    content: 'this one rocks',
+                    img_url: 'dog barking at me',
+                    type: 4
+                }).set('token', token)
+                    .then(response => {
+                        expect(response.statusCode).toBe(400);
+                    });
+
+            });
+
+        });
+
+        describe('that`s actually a great post!', () => {
+
+            test('you are posting it right!', () => {
+                request(app).post('/api/post').send({
+                    content: 'I want to post it!',
+                    img_url: 'cute cat photo URL',
+                    type: 2
+                }).set('token', token)
+                    .then(response => {
+                        expect(response.success).toBe(true);
+                    });
+
+            });
+
+            test('you are posting it right!', () => {
+                request(app).post('/api/post').send({
+                    content: 'I want to post it!',
+                    img_url: 'cute cat photo URL',
+                    type: 2
+                }).set('token', token)
+                    .then(response => {
+                        expect(response.success).toBe(true);
+                    });
+            });
+
+        });
     })
-})
+});
