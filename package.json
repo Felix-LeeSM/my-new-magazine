@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test node app.js",
-    "develope": "cross-env NODE_ENV=development node app.js",
+    "test": "cross-env NODE_ENV=test node server.js",
+    "develope": "cross-env NODE_ENV=development node server.js",
     "jest": "cross-env NODE_ENV=test jest"
   },
   "keywords": [],
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "jest": "^27.5.1"
+    "jest": "^27.5.1",
+    "supertest": "^6.2.2"
   }
 }

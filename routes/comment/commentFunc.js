@@ -1,9 +1,7 @@
 const { Comment, Post } = require('../../models');
 
-// 댓글 쓰기
-async function postComment(req, res) {
+const idCheck = (req, res) => {
     const { id } = res.locals;
-
     if (!id) {
         res.status(401).send({
             success: false,
@@ -11,6 +9,13 @@ async function postComment(req, res) {
         });
         return;
     }
+    return id;
+}
+
+
+// 댓글 쓰기
+async function postComment(req, res) {
+    const id = idCheck(req, res);
 
     const { text } = req.body;
     const post_id = parseInt(req.params.postId);
@@ -38,15 +43,7 @@ async function postComment(req, res) {
 
 // 댓글 수정
 async function putComment(req, res) {
-    const { id } = res.locals;
-
-    if (!id) {
-        res.status(401).send({
-            success: false,
-            errorMessage: '로그인 후 이용해주세요.'
-        });
-        return;
-    }
+    const id = idCheck(req, res);
 
     const { text } = req.body;
     const comment_id = parseInt(req.params.commentId);
@@ -71,15 +68,7 @@ async function putComment(req, res) {
 
 // 댓글 삭제
 async function deleteComment(req, res) {
-    const { id } = res.locals;
-
-    if (!id) {
-        res.status(401).send({
-            success: false,
-            errorMessage: '로그인 후 이용해주세요.'
-        });
-        return;
-    }
+    const id = idCheck(req, res);
 
     const comment_id = parseInt(req.params.commentId);
     const post_id = parseInt(req.params.postId);

@@ -1,18 +1,20 @@
 const jwt = require('jsonwebtoken');
 const path = require('path')
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const SECRET_KEY = process.env.SECRET_KEY;
 
-function authFunc(req, res, next) {
+const verifyToken = (token) => {
+    let id = '';
     try {
-        const { token } = req.headers;
-        const { id } = jwt.verify(token, SECRET_KEY);
-        res.locals = { id }
+        id = jwt.verify(token, SECRET_KEY).id;
+    } catch (err) { }
+    return id;
+};
 
-    } catch (err) {
-        // 토큰이 유효하지 않음
-        res.locals = { id: '' }
-    }
+function authFunc(req, res, next) {
+    const { token } = req.headers;
+    const id = verifyToken(token);
+    res.locals.id = id;
     next();
 }
 

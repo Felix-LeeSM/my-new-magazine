@@ -15,7 +15,7 @@ sequelize.sync()
         console.error(err);
     });
 
-const port = 3000;
+
 const logger = (req, res, next) => {
     console.log('User request :', req.originalUrl, new Date());
     console.log('User IP', requestIp.getClientIp(req));
@@ -29,12 +29,5 @@ app.use([
     express.json()]);
 
 app.use('/api', router);
-
-
-
-app.listen(port, () => {
-    console.log('port:', port, ', server on');
-});
-
 
 module.exports = app;

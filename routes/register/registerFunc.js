@@ -12,6 +12,7 @@ const registerSchema = joi.object({
 });
 
 async function register(req, res) {
+    const { id, nickname, password, profile_img_url } = req.body;
     if (registerSchema.validate(req.body).error ||
         password.includes(nickname)) {
 
@@ -22,7 +23,6 @@ async function register(req, res) {
         return;
     }
 
-    const { id, nickname, password, profile_img_url } = req.body;
 
     const existUser = await User.findOne({
         where: {

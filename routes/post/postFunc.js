@@ -1,25 +1,35 @@
 const { Comment, Post, User, Like } = require('../../models');
 const Op = require('sequelize').Op;
+const idCheck = (req, res) => {
+    const { id } = res.locals;
+    if (!id) {
+        res.status(401).send({
+            success: false,
+            errorMessage: '로그인 후 이용해주세요.'
+        });
+        return;
+    }
+    return id;
+}
+
 
 async function getAllPosts(req, res) {
     const { id } = res.locals;
     let lastpost = parseInt(req.query.lastpost);
     const number = parseInt(req.query.number);
+    let isLast = false;
 
     if (isNaN(lastpost) || isNaN(number)) {
         res.status(400).send({
             success: false,
             errorMessage: '잘못된 요청입니다.'
         });
-
         return;
     }
 
     if (lastpost === 0) {
         lastpost = 2147483647
     }
-
-    console.log('inf?', lastpost, typeof lastpost)
 
     const posts = await Post.findAll({
         order: [['id', 'DESC']],
@@ -28,7 +38,9 @@ async function getAllPosts(req, res) {
             id: { [Op.lt]: lastpost },
         },
         limit: number
-    }); // 수정 되어도 글은 밑에 위치하게 됨.
+    });
+
+    if (posts.length < number) isLast = true;
 
     for (let each of posts) {
         each.dataValues.byMe = id === each.user_id ? true : false;
@@ -46,18 +58,9 @@ async function getAllPosts(req, res) {
         each.dataValues.like_check = like ? true : false;
     }
 
-    if (posts.length < number) {
-        res.send({
-            success: true,
-            posts,
-            isLast: true,
-        });
-        return;
-    }
-
     res.send({
         success: true,
-        isLast: false,
+        isLast,
         posts
     });
 }
@@ -116,16 +119,8 @@ async function getOnePost(req, res) {
 }
 
 async function postPost(req, res) {
-    const { id } = res.locals;
+    const id = idCheck(req, res);
     const { content, img_url, type } = req.body;
-
-    if (!id) {
-        res.status(401).send({
-            success: false,
-            errorMessage: '로그인 후 이용해주세요'
-        });
-        return;
-    }
 
     if (!(content && img_url) || typeof type !== 'number') {
         res.status(400).send({
@@ -148,7 +143,7 @@ async function postPost(req, res) {
 }
 
 async function putPost(req, res) {
-    const { id } = res.locals;
+    const id = idCheck(req, res);
 
     const post_id = parseInt(req.params.postId);
 
@@ -167,7 +162,7 @@ async function putPost(req, res) {
 
     const { content, img_url, type } = req.body;
     await Post.update(
-        { content: content, img_url, type },
+        { content, img_url, type },
         { where: { id: post_id } }
     );
 
@@ -177,7 +172,7 @@ async function putPost(req, res) {
 }
 
 async function deletePost(req, res) {
-    const { id } = res.locals;
+    const id = idCheck(req, res);
 
     const post_id = parseInt(req.params.postId);
 
