@@ -89,7 +89,6 @@ async function getOnePost(req, res) {
         attributes: ['profile_img_url']
     });
 
-    console.log(author.profile_img_url)
     // 좋아요를 몇개 눌렀는지?, 내가 좋아요 눌렀는지?
     post.dataValues.like_count = like_count;
     post.dataValues.profile_img_url = author.profile_img_url;
