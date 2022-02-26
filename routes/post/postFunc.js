@@ -92,6 +92,8 @@ async function getOnePost(req, res) {
     // 좋아요를 몇개 눌렀는지?, 내가 좋아요 눌렀는지?
     post.dataValues.like_count = like_count;
     post.dataValues.profile_img_url = author.profile_img_url;
+    post.dataValues.byMe = false;
+    post.dataValues.like_check = false;
 
     for (let comment of post.Comments) {
         const user = await User.findOne({
