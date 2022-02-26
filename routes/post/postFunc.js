@@ -115,8 +115,10 @@ async function getOnePost(req, res) {
     const like = post.Likes.find((each) => {
         return each.user_id === id;
     });
-    post.dataValues.byMe = id === post.user_id ? true : false;
-    post.dataValues.like_check = like !== -1 ? true : false;
+    const byMe = id === post.user_id;
+    const like_check = !!(like);
+    post.dataValues.byMe = byMe;
+    post.dataValues.like_check = like_check;
     // 댓글들과 댓글 작성 유저들의 프로필 사진
 
     res.send({
