@@ -49,7 +49,7 @@ async function register(req, res) {
         profile_img_url
     });
 
-    res.send({
+    res.status(200).send({
         success: true
     });
 }
