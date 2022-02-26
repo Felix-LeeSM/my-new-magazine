@@ -104,7 +104,7 @@ async function getOnePost(req, res) {
         comment.dataValues.byMe = comment.user_id === id ? true : false;
     }
 
-    if (!id) {
+    if (!id) { // 비회원
         res.send({
             success: true,
             post
@@ -117,9 +117,9 @@ async function getOnePost(req, res) {
     });
     const byMe = id === post.user_id;
     const like_check = !!(like);
+
     post.dataValues.byMe = byMe;
     post.dataValues.like_check = like_check;
-    // 댓글들과 댓글 작성 유저들의 프로필 사진
 
     res.send({
         success: true,
