@@ -1,6 +1,7 @@
 const { Comment, Post, User, Like } = require('../../models');
 const Op = require('sequelize').Op;
-const idCheck = (req, res) => {
+
+async function idCheck(req, res, next) {
     const { id } = res.locals;
     if (!id) {
         res.status(401).send({
@@ -9,9 +10,8 @@ const idCheck = (req, res) => {
         });
         return;
     }
-    return id;
+    next();
 }
-
 
 async function getAllPosts(req, res) {
     const { id } = res.locals;
@@ -129,13 +129,7 @@ async function getOnePost(req, res) {
 
 async function postPost(req, res) {
     const { id } = res.locals;
-    if (!id) {
-        res.status(401).send({
-            success: false,
-            errorMessage: '로그인 후 이용해주세요.'
-        });
-        return;
-    }
+
     const { content, img_url } = req.body;
     let type = parseInt(req.body.type);
 
@@ -160,13 +154,6 @@ async function postPost(req, res) {
 
 async function putPost(req, res) {
     const { id } = res.locals;
-    if (!id) {
-        res.status(401).send({
-            success: false,
-            errorMessage: '로그인 후 이용해주세요.'
-        });
-        return;
-    }
 
     const post_id = parseInt(req.params.postId);
 
@@ -195,7 +182,7 @@ async function putPost(req, res) {
 }
 
 async function deletePost(req, res) {
-    const id = idCheck(req, res);
+    const { id } = res.locals;
 
     const post_id = parseInt(req.params.postId);
 
@@ -234,4 +221,4 @@ async function deletePost(req, res) {
     });
 }
 
-module.exports = { getAllPosts, getOnePost, postPost, putPost, deletePost };
+module.exports = { getAllPosts, getOnePost, postPost, putPost, deletePost, idCheck };

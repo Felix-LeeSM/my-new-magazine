@@ -1,5 +1,3 @@
-const { response } = require('./routes');
-
 describe('running test offline', () => {
     const request = require('supertest');
     const { sequelize } = require('./models');
@@ -83,31 +81,17 @@ describe('running test offline', () => {
             });
         });
 
-        // DEAD TEST BELOW
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //---------------------------------------------------------------------------------------------------------------------------------
-        //---------------------------------------------------------------------------------------------------------------------------------
         describe('given factors that fit', () => {
+            beforeAll(async () => {
+                await request(app).post('/api/register').send({
+                    id: 'qwer@qwer.com',
+                    password: 'asdfasdf',
+                    confirmPassword: 'qwerqwer',
+                    nickname: '1q2w3e4r',
+                    profile_img_url: 'akn.com'
+                })
+            })
             describe('given perfect factors', () => {
-
-                test('flawless input for register', async () => {
-                    await request(app).post('/api/register').send({
-                        id: 'qwer@qwer.com',
-                        password: 'asdfasdf',
-                        confirmPassword: 'qwerqwer',
-                        nickname: '1q2w3e4r',
-                        profile_img_url: 'akn.com'
-                    });
-                    expect(1).toBe(1);
-                });
-                //---------------------------------------------------------------------------------------------------------------------------------
-                //---------------------------------------------------------------------------------------------------------------------------------
-                //---------------------------------------------------------------------------------------------------------------------------------
-                //---------------------------------------------------------------------------------------------------------------------------------
-                //---------------------------------------------------------------------------------------------------------------------------------
-                // DEAD TEST BEYOND
                 test('given duplicated id', () => {
                     request(app).post('/api/register').send({
                         id: 'qwer@qwer.com',
@@ -119,7 +103,6 @@ describe('running test offline', () => {
                         expect(response.statusCode).toBe(400);
                     });
                 });
-
             });
         });
     });
@@ -128,7 +111,6 @@ describe('running test offline', () => {
 
     describe('POST /api/login', () => {
         describe('Don`t login with wrong factors', () => {
-
             test('login with wrong id', async () => {
                 const response = await request(app).post('/api/login').send({
                     id: 'asdf',

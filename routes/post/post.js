@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { getAllPosts, getOnePost, postPost, putPost, deletePost } = require('./postFunc')
+const { getAllPosts, getOnePost, postPost, putPost, deletePost, idCheck } = require('./postFunc')
 
 // 전체 게시글 불러오기
 router.get('/', getAllPosts);
@@ -9,12 +9,12 @@ router.get('/', getAllPosts);
 router.get('/:postId', getOnePost);
 
 // 게시글 작성
-router.post('/', postPost);
+router.post('/', idCheck, postPost);
 
 // 게시글 수정
-router.put('/:postId', putPost);
+router.put('/:postId', idCheck, putPost);
 
 // 게시글 삭제
-router.delete('/:postId', deletePost);
+router.delete('/:postId', idCheck, deletePost);
 
 module.exports = router;
