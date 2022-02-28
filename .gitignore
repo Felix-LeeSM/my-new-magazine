@@ -4,3 +4,6 @@
 !/testDB/docker-compose.yml
 .env
 /app.test.js
+
+/**/*.test.js
+
