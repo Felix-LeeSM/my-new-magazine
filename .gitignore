@@ -1,5 +1,6 @@
 /node_modules
 /data/data_1
-/testDB/test
+/testDB/
+!/testDB/docker-compose.yml
 .env
-app.test.js
+/app.test.js
